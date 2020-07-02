@@ -11,13 +11,11 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Details about the user of the application.")
 public class User {
-	
 	private Integer id ;
 	
 	@Size(min=2, message="Name should have atleast 2 characters")
 	@ApiModelProperty(notes="Minimum length of name is upto 2 characters.")
 	private String name;
-	
 	@Past
 	@ApiModelProperty(notes="Date here should be in past.")
 	private Date birthDate;
