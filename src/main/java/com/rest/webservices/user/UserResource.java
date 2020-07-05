@@ -2,6 +2,7 @@ package com.rest.webservices.user;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -31,15 +32,15 @@ public class UserResource {
 
 	@GetMapping("/users/{id}")
 	public EntityModel<User> retrieveUser(@PathVariable int id) {
-		User user = service.findOne(id);
+		Optional<User> user =  service.findOne(id);
 		
-		if(user==null)
+		if(!user.isPresent())
 			throw new UserNotFoundException("id-"+ id);
 		
 		
 		//"all-users", SERVER_PATH + "/users"
 		//retrieveAllUsers
-		EntityModel<User> resource = EntityModel.of(user);
+		EntityModel<User> resource = EntityModel.of(user.get());
 		
 		WebMvcLinkBuilder linkTo = 
 				linkTo(methodOn(this.getClass()).retrieveAllUsers());
@@ -53,10 +54,7 @@ public class UserResource {
 
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(@PathVariable int id) {
-		User user = service.deleteById(id);
-		
-		if(user==null)
-			throw new UserNotFoundException("id-"+ id);		
+		 service.deleteById(id);
 	}
 
 	//
